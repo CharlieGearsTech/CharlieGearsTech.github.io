@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Site wide configuration
 
 title: Academic Website of Ted Laderas
@@ -72,3 +73,6 @@ kramdown:
 
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
+=======
+theme: jekyll-theme-minimal
+>>>>>>> e126fff9a0c00ebe4b3494d3a40a9841d8e87f99
