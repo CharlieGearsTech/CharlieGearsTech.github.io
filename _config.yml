@@ -1,19 +1,19 @@
 # Site wide configuration
 
-title: Academic Website of Ted Laderas
-locale: en_US
-logo: # filename of a logo image that has been placed into your images directory
+title: GearsTech by Carlos Hdez
+locale: en_MX
+logo: gearsTechLogoBlacknWhite.jpg
 
 # Enter the following platform usernames if you would like for them to appear on your site.
 owner:
-  name: Ted Laderas
-  avatar: bio-photo.jpg
-  bio: "This is a sample Jekyll academic website."
-  email: laderast@ohsu.edu
+  name: Carlos Enrique Hernández Ibarra
+  avatar: HernandezCarlosEnrique.png
+  bio: "Passionated about the Automotive Industry, C/C++, Autosar, and Matlab/Simulink."
+  email: chernandez@gearstech.com.mx ; char.mechanic92@gmail.com
   # Do not include the @ symbol in your Twitter username
-  twitter: laderast
-  linkedin: #username
-  github: laderast
+  twitter: #
+  linkedin: https://www.linkedin.com/in/cehi92/
+  github: CharlieGearsTech
   orcid: # ID Number (ex. 0000-0000-0000-0000)
   researchgate: #username
   mendeley: #username
@@ -42,12 +42,12 @@ owner:
 
 # The following adjust the accents for your site. If you would like to further edit colors, fonts, font sizes, etc.
 # you may do so in _sass/variables.scss
-highlight-color: '#CC0000'
+highlight-color: '#0458b8'
 lowlight-color: '#000'
 
   # NOTE: If you would like your site to be licensed under a creative commons license, uncomment the 'yes' next to the type of license you wish to use.
 creative-commons:
-  cc-by: #yes
+  cc-by: yes cc0-1.0
   cc-by-nc: yes
 
 #DO NOT EDIT BEYOND THIS POINT
