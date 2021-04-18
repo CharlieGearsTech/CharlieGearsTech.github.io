@@ -1,20 +1,19 @@
-<<<<<<< HEAD
 # Site wide configuration
 
-title: GearsTech by Carlos Hdez
-locale: en_MX
+title: Academic Website of Ted Laderas
+locale: en_US
 logo: # filename of a logo image that has been placed into your images directory
 
 # Enter the following platform usernames if you would like for them to appear on your site.
 owner:
-  name: Carlos Enrique Hernández Ibarra
-  avatar: HernandezCarlosEnrique.png
-  bio: "Passionated about the Automotive Industry, C/C++, Autosar, and Matlab/Simulink."
-  email: char.mechanic92@gmail.com
+  name: Ted Laderas
+  avatar: bio-photo.jpg
+  bio: "This is a sample Jekyll academic website."
+  email: laderast@ohsu.edu
   # Do not include the @ symbol in your Twitter username
-  twitter: none
-  linkedin: #https://www.linkedin.com/in/cehi92/
-  github: CharlieGearsTech
+  twitter: laderast
+  linkedin: #username
+  github: laderast
   orcid: # ID Number (ex. 0000-0000-0000-0000)
   researchgate: #username
   mendeley: #username
@@ -26,7 +25,7 @@ owner:
   facebook: #username
   instagram: #username
   bing-verify:
-  stackoverflow: #
+  stackoverflow: #123456/username from a "https://stackoverflow.com/users/123456/username" link
   xing: #username
   lastfm: #username
   tumblr: #username
@@ -34,7 +33,7 @@ owner:
   foursquare: #username
   steam: #username
   dribbble: #username
-  youtube: #https://www.youtube.com/channel/UC2aQgH2jr43uutJYAw4Phiw
+  youtube: #username
   soundcloud: #username
   weibo: #username
   flickr: #username
@@ -48,7 +47,7 @@ lowlight-color: '#000'
 
   # NOTE: If you would like your site to be licensed under a creative commons license, uncomment the 'yes' next to the type of license you wish to use.
 creative-commons:
-  cc-by: yes cc0-1.0
+  cc-by: #yes
   cc-by-nc: yes
 
 #DO NOT EDIT BEYOND THIS POINT
@@ -73,6 +72,3 @@ kramdown:
 
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
-=======
-theme: jekyll-theme-minimal
->>>>>>> e126fff9a0c00ebe4b3494d3a40a9841d8e87f99

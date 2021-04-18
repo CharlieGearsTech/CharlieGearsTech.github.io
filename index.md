@@ -3,10 +3,10 @@ layout: page
 excerpt: "About Me..."
 ---
 
-Passionated about the Automotive Industry, C/C++, Autosar, and Matlab/Simulink.
+I am a academic, hear me roar. I am an Assistant Professor at Oregon Health & Science University.
 
 ## Current Interests and Projects:
 
-- Automotive Industry
-- Autosar [Autosar Org ](https://www.autosar.org/)
-- C++
+- Website Design
+- [GitHub Pages](http://laderast.github.io)
+- Academia
