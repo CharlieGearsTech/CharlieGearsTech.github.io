@@ -2,13 +2,13 @@
 layout: post
 title: MISRA C Merged Enums
 excerpt: "Examples to comply with MISRA C 2012 regarding inappropriate enum cast"
-modified: 4/16/2020, 9:00:24
+modified: 4/16/2021, 9:00:24
 tags: [MISRA, C]
 comments: true
 category: blog
 ---
 
-#Introduction
+# Introduction
 
 This article suggests being **aware to not merge enums definitions into a principal enum as they usually need an inappropriate cast to be used**. To give an example of how this causes problems let’s suppose two functions are defined to get the functionality for a specific entity called “joint”. These functions use three enum types, one called *E_JOINT_FUNCTION* which identifies the functions that a Wheel Joint type can perform; the other two enums are types for the Upper Joint and the Lower Joint available in the system:
 
@@ -64,7 +64,8 @@ In this example, I am going to use these functions to determine the functionalit
         E_ERR_UJ_FRONT_LEFT,
         E_ERR_UJ_REAR_LEFT,
         E_ERR_UJ_FRONT_RIGHT,
-        E_ERR_UJ_REAR_RIGHT,
+        E_ERR_UJ_- [GitHub Pages Workshop](https://github.com/BioData-Club/githubPagesTutorial)
+REAR_RIGHT,
         E_ERR_ADAPTOR,
         E_ERR_MAX
     } E_ERR_JOINT_TYPE;
@@ -101,7 +102,8 @@ The MISRA Rule 10.3 is related to this previous issue: **Expression assigned to 
             channelFunc = Get_LSC_to_feature((E_LOWER_JOINT) error);
             /*...*/
         }
-        /*...*/
+        /*...*/- [GitHub Pages Workshop](https://github.com/BioData-Club/githubPagesTutorial)
+
     }
 
 ```
@@ -144,4 +146,11 @@ One approach to remove the MISRA warning is to **split *E_ERR_JOINT_TYPE* into t
 ```
 
 In this way, we had removed the MISRA warning of the previous example.
+
+## Conclusion
+
+1. Evade MISRA Rule 10.3 warning by no casting to narrower types.
+2. Don’t merge enum definition to avoid non-permitted casts.
+
+
 
