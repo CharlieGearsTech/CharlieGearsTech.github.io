@@ -157,7 +157,39 @@ Crypto Drivers are the principal responsibilities of the crypto operations. They
 
 The key component is the classification of key types made by the Crypto Drivers. Examples of these key types are Private key, Public key, hash values, random number certification, etc. Autosar defines these key types to perform crypto operations. Each composition key type has one ID, Autosar defines a key type ID below 1000, when two different key types have the same ID, then these key types can be used such the same type (Length, operations, access, etc). Keys ID that is above 1000 is free-definition to e used by the vendor.
 
-# Transport Layer Security
+## Security on On-board Communication
+
+Security on On-board Communication (**SecOC**) is an additional module at the  Autosar communication stack related to PDU transmission authentication and integrity. SecOC retrieves PDUs from PDUR and adds security information to encrypt based on the PDU payload and the SOME/IP transformer use. SecOC supports various communication buses such as CAN, FlexRay, and Ethernet but are not supporting LIN yet. 
+
+The principal interaction flow of SecOC is:
+
+* PDUR receives one PDU from one specific channel (CAN, FlexRay, Ethernet).
+* PDUR transmits the PDU to SecOC, then SecOC converts this PDU to a “secure” PDU.
+* SecOC along with CSM verifies the PDU authenticity and integrity.
+* SecOC returns the PDU without security wrappers to PDUR to finish the PDU processing. 
+    * When SecOC determines that one PDU is insecure, SecOC discards the PDU, and PDUR receives nothing from SecOC.
+* SecOC communicates the PDU verification results to ASW.
+* Additionally, SecOC can support PDU data freshness.
+
+The transmission of secured data among ECUs is based on the authenticated message that is composed of data + freshness + MAC value. The MAC part of the authenticated message is generated internally by the sender and it is based on the private key shared among ECUs.
+
+Autosar does not specify a freshness definitive calculation. Autosar modules only provide Freshness value callout from a module called Freshness Value Manager (FVM). Freshness is the mechanism to avoid malicious replication of messages that are exchanged between ECUs. These malicious replications are progressive changes without detection. To avoid these replications, some Freshness mechanisms are defined:
+
+* **Message Counter Based Freshness (MCBF)**. Each time a message is transmitted, one internal counter which is independent of the ECU will be incremented. The disadvantage of MCBF is that counters shall be persistent and will add CPU load due to NVM processing. Another disadvantage of MCBF is its relative weakness from out of sync counter conditions.
+* **Trip Counter Based Freshness (TCBF)**. TCBF is incremented when a trip is completed (ECU message process). FVM increments the TCBF along with a synch message (TripResetSynchMessage) to both, the sender and receiver. TCBF is based on the hybrid sending of freshness based on 3 counters to support automatic resync:
+    * Trip Counter. ECU incremental persistent 4 bytes for each ECU process.
+    * Reset Counter. PDU incremental no-persistent value, this counter increases itself when a message counter has suffered an overflow.
+    * Message Counter. PDU incremental no- persistent value, this counter increases itself every time a message is sent.
+* **Time Stamps.** Verification for each ECU with a real-time value, time-stamps shall be sent by “secure” messages.
+Hybrid mechanisms. Combination of Timestamps and Freshness counters.
+
+Conditions of Out of sync counter happens when 2 counter mismatch during E2E communication. The following mechanisms prevent the out of sync counter mismatching:
+
+* **Truncated freshness**. This approach recognizes small differences in the freshness values from two ECUs. For example, sending values with a resolution of 10 permits room for delay messages to one ECU that has freshness between 11 to 19.
+* **Challenge-response protocol**. This approach detects large differences in the freshness values from two ECUs. Challenge-response protocol is a “challenge” special message from one ECU to another to perform a sync execution.
+* **Periodic counter-message**. This approach injects periodic messages to the schedule to verify the counter from both ECUs and thereby avoiding out of sync conditions.
+
+## Special case Transport Layer Security
 
 Transport Layer Security (**TLS**) ensures the data exchange privacy and integrity on the TCP protocol, which alone cannot ensure these features. TLS is the abstraction of the Session layer at the Ethernet communication stack. This layer is just above the transport layer (TCP in this case).
 
@@ -177,3 +209,14 @@ Levels of TCP/IP
 * Link Layer -> Ethernet
 
 A TLS cryptography session specifies the cryptography mechanisms that one group of clients supports. The server always chooses to communicate with the client with the best robust TLS cryptography session.
+
+# Crypto Instances of use
+## Secure Bootloader
+
+Secure Bootloader prevents the execution of altered SW during the trusted execution chain of the ECU. The secure bootloader shall verify the SW integrity for each ECU startup by using checksums, signature validation, and MAC/Keys containment in a secured area. This integrity validation prolongs the startup time, so HW specific solutions can be considered to mitigate high Startup times.
+
+The Secure Bootloader requires truthful SW and HW entities to save the Boot MAC/secret key inside them. For example, HW HSMs compare their Boot MAC against a computation from the bootloader host; if both are equal, then the bootloader is considered to be secure. Thereby, the bootloader performs calculations to determine the Application level MAC and ask HSM to compare with its stored Application-level MAC. If both coincide, then the application is started. If any of these comparisons do not match, the HSM is blocked and triggers an ECU reset.
+
+## Secure Diagnostic
+
+The secure diagnostic is based on the role of establishment or whitelist to trusted authorities by certifications. Each role has process permissions or diagnostic data access. The OEM contains back-end devices to establish certifications and roles, while the vehicle verifies these certifications by authentication demands.
