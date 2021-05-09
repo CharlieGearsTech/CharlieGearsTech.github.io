@@ -64,8 +64,7 @@ In this example, I am going to use these functions to determine the functionalit
         E_ERR_UJ_FRONT_LEFT,
         E_ERR_UJ_REAR_LEFT,
         E_ERR_UJ_FRONT_RIGHT,
-        E_ERR_UJ_- [GitHub Pages Workshop](https://github.com/BioData-Club/githubPagesTutorial)
-REAR_RIGHT,
+        E_ERR_UJ_-REAR_RIGHT,
         E_ERR_ADAPTOR,
         E_ERR_MAX
     } E_ERR_JOINT_TYPE;
@@ -102,8 +101,6 @@ The MISRA Rule 10.3 is related to this previous issue: **Expression assigned to 
             channelFunc = Get_LSC_to_feature((E_LOWER_JOINT) error);
             /*...*/
         }
-        /*...*/- [GitHub Pages Workshop](https://github.com/BioData-Club/githubPagesTutorial)
-
     }
 
 ```
