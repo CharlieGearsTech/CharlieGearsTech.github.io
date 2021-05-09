@@ -219,4 +219,6 @@ The Secure Bootloader requires truthful SW and HW entities to save the Boot MAC/
 
 ## Secure Diagnostic
 
-The secure diagnostic is based on the role of establishment or whitelist to trusted authorities by certifications. Each role has process permissions or diagnostic data access. The OEM contains back-end devices to establish certifications and roles, while the vehicle verifies these certifications by authentication demands.
+The secure diagnostic is based on the role of esta blishment or whitelist to trusted authorities by certifications. Each role has process permissions or diagnostic data access. The OEM contains back-end devices to establish certifications and roles, while the vehicle verifies these certifications by authentication demands.
+
+> Reference : https://www.autosar.org/
