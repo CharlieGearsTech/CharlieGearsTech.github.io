@@ -119,7 +119,7 @@ The Autosar cryptography cluster is composed by the following modules:
 * **Crypto Interface** (CRYIF): This module enables CSM to access Crypto Driver features based on standardized APIs.
 * **Crypto Driver** (CryptoSW and CryptoHw): These modules are the ones performing the cryptographic functions. CryptoSW uses SW libraries whereas CryptoHW uses HW capabilities (SHE, HSM, TPM, …).
 
-![CSM Stack](/CharlieGearsTech.github.io/images/sc2.jpeg)
+![CSM Stack](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc2.png)
 
 ## Crypto Service Manager
 
@@ -161,6 +161,8 @@ The key component is the classification of key types made by the Crypto Drivers.
 
 Security on On-board Communication (**SecOC**) is an additional module at the  Autosar communication stack related to PDU transmission authentication and integrity. SecOC retrieves PDUs from PDUR and adds security information to encrypt based on the PDU payload and the SOME/IP transformer use. SecOC supports various communication buses such as CAN, FlexRay, and Ethernet but are not supporting LIN yet. 
 
+![SecOC_Pdu_Flow](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc4.png)
+
 The principal interaction flow of SecOC is:
 
 * PDUR receives one PDU from one specific channel (CAN, FlexRay, Ethernet).
@@ -171,7 +173,11 @@ The principal interaction flow of SecOC is:
 * SecOC communicates the PDU verification results to ASW.
 * Additionally, SecOC can support PDU data freshness.
 
+![CSM Stack](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc3.png)
+
 The transmission of secured data among ECUs is based on the authenticated message that is composed of data + freshness + MAC value. The MAC part of the authenticated message is generated internally by the sender and it is based on the private key shared among ECUs.
+
+![CSM Stack](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc5.png)
 
 Autosar does not specify a freshness definitive calculation. Autosar modules only provide Freshness value callout from a module called Freshness Value Manager (FVM). Freshness is the mechanism to avoid malicious replication of messages that are exchanged between ECUs. These malicious replications are progressive changes without detection. To avoid these replications, some Freshness mechanisms are defined:
 
