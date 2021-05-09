@@ -14,10 +14,104 @@ Cybersecurity is any collection of mechanisms and processes to protect a system 
 
 The principal goals for Autosar Cybersecurity are:
 
-* Authenticity, the determination than the entity sending data is the one expected.
-* Confidentiality ensures that communication between 2 entities cannot be intercepted by a third one.
-* Integrity ensures that data received by one entity was not modified by another entity during the transmission.
-* Availability ensures that one entity keeps its stable state during malicious attacks.
+* **Authenticity**, the determination than the entity sending data is the one expected.
+* **Confidentiality** ensures that communication between 2 entities cannot be intercepted by a third one.
+* **Integrity** ensures that data received by one entity was not modified by another entity during the transmission.
+* **Availability** ensures that one entity keeps its stable state during malicious attacks.
+
+The main use case of Cyber security in the Automotive industry are:
+
+* **End 2 End (E2E) communication**. The secured communication between ECUs within a vehicle network.
+* **Vehicle connectivity with outsiders**. Secured Car2X communication for wireless software updates (OTA), and hotspots for in-car Infotainment.
 
 
+Along with the main work product process, any system development that includes cybersecurity has to comply with the following work products (as the client required) from the beginning of the project:
 
+* **Asset Definition** determines the mechanisms, behaviors, and system attributes that require cybersecurity.
+* **Thread and Risk Assessment** is the analysis of different conditions within a system to see how easy it is to receive a malicious attack and how much damage might cause.
+* **Security Goals Derivation** is the high-level identification of mechanisms to use to mitigate the analyzed risks from Thread and Risk Assessment.
+* **Security Architecture Design and Analysis** is the adaptation of the original architecture to add cybersecurity mechanisms.
+* **Security Mechanisms Design and Analysis** is the complete design of cybersecurity mechanisms and how they are adapted for each SWC.
+* **Functional Security Testing** are functional tests from the system without defining any dedicated cybersecurity condition.
+* **Fuzz Testing** is functional tests that search failures from no defined behavior (sending incorrect data or searching unexpected paths of execution).
+* **Penetration Testing** is a black-box test performed by expert third parties with already known mechanisms to hack a system.
+* **Security Validation** is a white-box test performed by expert third parties with preconditioned mechanisms to hack a system.
+
+# Cryptography Basics
+
+Cryptography is the set of mechanism and algorithm to perform cybersecurity on an SW system. Cryptography is divided into 2 types of cryptography:
+
+* **Symmetric cryptography** uses the same steps to encrypt and decrypt (uses only public keys). Decrypt performs the encrypt steps but in reverse order. Symmetrical cryptography can be defined as either block cryptography or data flow cryptography.
+* **Asymmetric cryptography** uses different steps to encrypt and decrypt (uses public key and private key). Some examples of asymmetric cryptography are integrating factor, discrete logarithmic function, an elliptical curve.
+
+Some other *complementary* cryptography mechanisms are:
+
+* **Hashes** are interface functions that hide the real values of data sets.
+* **Protocols** are complex mechanisms to use different types of cipher with hashes.
+
+There is a principle called *Kerckhoffs Principle* which indicates that the security of a system relies almost entirely on the **secrecy of the key** and not on the secrecy of the algorithm.
+
+A hash function takes one input value with variable length, then the hash maps the output with a predefined length to represent the fingerprint of data. A secure hash function is infeasible to the inverse computation of the output and it is infeasible when two inputs cannot yield to the same mapped output. Hash functions perform huge changes to relative small input differences. Hash functions are not defined as cybersecurity mechanisms but are very important as a complement to some real security mechanisms. Usually hash are the transport entity of a private key signature that later is verified against the public key signature that is locally addressed.
+
+## Attack Threads
+
+Threads are defined attack types that can be documented as follows:
+
+* **Spoofing** is the act of disguising a communication by acting as the trusted source, Spoofing is mitigated by protecting secret data by no storing the data in no secured sources, and use appropriate techniques of authentification.
+* **Tampering** is the act of deliberately modifying the data by using non-authorized channels. Tampering is mitigated by using appropriate authorization techniques and complement the use of Hashes, MACs, and digital signatures.
+* **Repudiation** is the act of a system of not having methods to track and log an entity and its actions leaving room for attacks from this entity. Repudiation is mitigated by using digital signatures, use of timestamps during communication between trusted sources, and audit trails.
+* **Information Disclosure** is the failure of a system of not protecting sensitive and confidential information from entities that are not supposed to have access to this kind of information. Information Disclosure is mitigated by authorization requests, encryption of sensitive data, privacy-enhanced protocols, and protection of secret data by not storing this data in unsaved places.
+* **Denial of Service** is the act of shutting down the system, network, or making inducible any source to its intended users. The way to mitigate denial of service attack is by ensuring appropriate authorization and authentification, filtering entities, and ensuring the quality of service of the system.
+
+## Symmetric cryptography
+
+Symmetric cryptography uses the same key to encrypt and decrypt. This type of encryption is normally used for data confidentiality, integrity, and authenticity that requires low-profile security mechanism. The distribution of keys shall be careful because anyone with the key can access all security mechanisms. 
+
+The most used in the automotive industry symmetric cryptography is the **Advanced Encryption Standard (AES)**, AES is based on block cryptography algorithms and needs the definition of the key and the data length (128 bits, 192 bits, or 256 bits). AES performs cycles of encryption rounds, these rounds operate combinations of byte substitution, shifting of bytes, or key addition to produce a CipherText.
+
+In general, symmetric cryptography can create **messages of authentication of code (MACs)** during their procedure using the secret key. MAC is a fixed-side digital code that can be only created by the key creator. The MAC is transmitted along with the encrypted data, if the receiver can decipher the MAC, then it is assumed that the encrypted data can be decrypted too. There are two types of MACs, the one defined by hash functions **(HMAC)** or the one defined by block encryption **(CMAC)**.
+
+## Asymmetric cryptography
+
+Asymmetric cryptography uses two keys (one public and another private), These keys have relatively large lengths. The public key can be shared with all the entities that can collaborate with the system; whereas the private key cannot be shared with all the entities of the system and shall be dedicated to a specific entity.
+
+Asymmetric cryptography algorithms are based on one key encrypting the data and the other one decrypts the data. For example, if the public key is used to encrypt data, then the private key is used to decrypt the data. The most used algorithms of asymmetric cryptography are **RSA**(Rivest, Shamir, and Adleman) and **ECC**(Elliptic Curve Cryptography).
+
+### Digital Signature
+
+The **digital signature** is based on asymmetric cryptography and offers data authenticity and data integrity. The digital signature creator generates the signature by the hash generation of complex data, to later encrypt this data before transmitting it to the user. The user decrypts the received data to  compare the hash data with the decrypted hash data and if they are the same, then the data integrity and data authenticity are guaranteed. Notice that the encryption can be done by the private key or public key, or otherwise, depending of the mechanism architecture (decryption is going alway to be the opposite key than the encryption key).
+
+Digital signatures are mainly used by **certifications**. Certifications are mechanisms to ensure that one data-sending entity is allowed to send those data. Certifications might contain personal data from the sender (for example IDs, sensitive information) to be identified, this personal data has an expiration time to use.
+
+The automotive industry permits secure interaction of the ECU with diagnostic tools or external b*back-ends* using certifications. This ECU access is supported by different certifications for each access level (Root, Tester, Checker, …).
+
+# Cybersecurity use cases on the Automotive industry
+## Flash Programming
+
+The ECU encryption can be performed using two methods:
+
+* **HMACs use**. The manufacturer creates an HMAC by a secret key and a hash. Then the manufacturer transfers the file to reflash along with the HMAC to the ECU. The ECU takes the HMAC and compares it to the decrypted HMAC by the secret key. If the HMAC verification is correct, then the ECU reflash is permitted.
+* **Digital Signature**. Same process than the HMAC but using public keys and private keys. The public key is generated by the manufacturer delivering a digital signature, then the ECU takes this signature and processes it with the private key. If the signature verification is correct, then the ECU reflash is permitted.
+
+![Flash Programming Use Case](sc1.jpeg)
+
+# Transport Layer Security
+
+Transport Layer Security (**TLS**) ensures the data exchange privacy and integrity on the TCP protocol, which alone cannot ensure these features. TLS is the abstraction of the Session layer at the Ethernet communication stack. This layer is just above the transport layer (TCP in this case).
+
+TLS encapsulates a security mechanism collection:
+
+1. For privacy, symmetric cryptography is used.
+2. For data integrity, HMACs are used. HMACs calculations create secret and temporal keys that are linked to the specific session of TLS.
+3. The server authenticity is always ensured by Digital Certifications.
+4. Optimally, the client can be authenticated if necessary.
+
+Levels of TCP/IP
+
+* Application Layer -> COM/SomeIP
+* Session Layer -> TLS
+* Transport Layer -> TCP
+* Network Layer -> IPv4/IPv6
+* Link Layer -> Ethernet
+
+A TLS cryptography session specifies the cryptography mechanisms that one group of clients supports. The server always chooses to communicate with the client with the best robust TLS cryptography session.
