@@ -2,7 +2,7 @@
 layout: post
 title: Autosar Cyber Security
 excerpt: "Overall summary of the cencepts of cyber security on Autosar"
-modified: 5/10/2021, 9:00:24
+modified: 5/07/2021, 9:00:24
 tags: [Autosar, CyberSecurity, C]
 comments: true
 category: blog
