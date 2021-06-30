@@ -140,7 +140,7 @@ The CSM Queues are mapped based on the Crypto Driver, CRYIF uses one channel for
 
 One possible crypto stack flow is:
 
-* One SWC asks for a CSM service using the *API Csm_\<PrimitiveType>()*. This API use Job IDs to identify every CSM primitive process.
+* One SWC asks for a CSM service using the *API Csm_<PrimitiveType>()*. This API use Job IDs to identify every CSM primitive process.
 * CSM adds the required job to one of the available CSM queues, the scheduler processes this job based on its priority.
 * If the CSM job is synchronous, CSM executes *Csm_MainFunction()* to transmit the selected job to lower modules.
     * if the CSM job is asynchronous, then CSM executes the respective callback to transmit the selected job to lower modules.
@@ -163,7 +163,7 @@ CSM primitives define each job type based on:
 
 CSM can enable the user to define function as **preprocessing** and **postprocessing** to a CSM job callout. Preprocessing of a CSM job callout can disable the CSM job process if there is no correct condition to execute the CSM primitive request, and the prostprocessing CSM job callout is able to provide to higher layer function additional data such as the CSM job return.
     
-CryIf is the implementation of cryptography abstraction made by the crypto drivers and coordinated by CSM access. CryIf offers independent interfaces from HW/SW crypto drivers to superior channels to process the crypto operations.
+CryIf is the implementation of cryptography abstraction made by the crypto drivers and coordinated by CSM access. CryIf offers independent APIs from HW/SW crypto drivers to superior channels to process the crypto operations.
 
 Crypto Drivers are the principal responsibilities of the crypto operations. They specify the crypto capabilities and the composition of the key, as well as, the keys access properties.
 
@@ -238,11 +238,5 @@ The Secure Bootloader requires truthful SW and HW entities to save the Boot MAC/
 ## Secure Diagnostic
 
 The secure diagnostic is based on the role of esta blishment or whitelist to trusted authorities by certifications. Each role has process permissions or diagnostic data access. The OEM contains back-end devices to establish certifications and roles, while the vehicle verifies these certifications by authentication demands.
-
-## Secure Software download
-
-## Secure over the air commands
-
-## Production and development SW verification
 
 > Reference : https://www.autosar.org/
