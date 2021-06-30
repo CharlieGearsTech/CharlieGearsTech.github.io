@@ -140,7 +140,7 @@ The CSM Queues are mapped based on the Crypto Driver, CRYIF uses one channel for
 
 One possible crypto stack flow is:
 
-* One SWC asks for a CSM service using the *API Csm_<PrimitiveType>()*. This API use Job IDs to identify every CSM primitive process.
+* One SWC asks for a CSM service using the *API Csm_\<PrimitiveType>()*. This API use Job IDs to identify every CSM primitive process.
 * CSM adds the required job to one of the available CSM queues, the scheduler processes this job based on its priority.
 * If the CSM job is synchronous, CSM executes *Csm_MainFunction()* to transmit the selected job to lower modules.
     * if the CSM job is asynchronous, then CSM executes the respective callback to transmit the selected job to lower modules.
@@ -163,7 +163,7 @@ CSM primitives define each job type based on:
 
 CSM can enable the user to define function as **preprocessing** and **postprocessing** to a CSM job callout. Preprocessing of a CSM job callout can disable the CSM job process if there is no correct condition to execute the CSM primitive request, and the prostprocessing CSM job callout is able to provide to higher layer function additional data such as the CSM job return.
     
-CryIf is the implementation of cryptography abstraction made by the crypto drivers and coordinated by CSM access. CryIf offers independent APIs from HW/SW crypto drivers to superior channels to process the crypto operations.
+CryIf is the implementation of cryptography abstraction made by the crypto drivers and coordinated by CSM access. CryIf offers independent interfaces from HW/SW crypto drivers to superior channels to process the crypto operations.
 
 Crypto Drivers are the principal responsibilities of the crypto operations. They specify the crypto capabilities and the composition of the key, as well as, the keys access properties.
 
@@ -175,15 +175,16 @@ Security on On-board Communication (**SecOC**) is an additional module at the  A
 
 ![SecOC_Pdu_Flow](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc4.png)
 
-The principal interaction flow of SecOC is:
+One use case of SecOC is:
 
-* PDUR receives one PDU from one specific channel (CAN, FlexRay, Ethernet).
+* PDUR receives one PDU from any communication module (CanTp, FlexRay, Ethernet).
 * PDUR transmits the PDU to SecOC, then SecOC converts this PDU to a “secure” PDU.
 * SecOC along with CSM verifies the PDU authenticity and integrity.
-* SecOC returns the PDU without security wrappers to PDUR to finish the PDU processing. 
+* SecOC returns the PDU without security wrappers to PDUR in order to finish the PDU processing. 
     * When SecOC determines that one PDU is insecure, SecOC discards the PDU, and PDUR receives nothing from SecOC.
+    * If SecOC determines that one PDU is secured, SecOC forwards the PDU to PDUR to be routed.
 * SecOC communicates the PDU verification results to ASW.
-* Additionally, SecOC can support PDU data freshness.
+* Additionally, SecOC can support PDU data freshness. This is a configurable option if the ECU requires the freshness of data. This freshness of data can be integrated on the secured PDU and sometimes even be splitted to a pair of associated PDUs.
 
 ![SecOC_Stack](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc3.png)
 
@@ -191,20 +192,21 @@ The transmission of secured data among ECUs is based on the authenticated messag
 
 ![ECU_Secure_Message](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/sc5.png)
 
-Autosar does not specify a freshness definitive calculation. Autosar modules only provide Freshness value callout from a module called Freshness Value Manager (FVM). Freshness is the mechanism to avoid malicious replication of messages that are exchanged between ECUs. These malicious replications are progressive changes without detection. To avoid these replications, some Freshness mechanisms are defined:
+Autosar does not specify a freshness definitive calculation. Autosar SecOC only support Freshness-
+value callout froms a module called Freshness Value Manager (FVM). FNM is the module that support mechanism to avoid malicious replication of messages that are exchanged between ECUs. These malicious replications are progressive changes without detection. To avoid these replications, these Freshness mechanisms are defined:
 
-* **Message Counter Based Freshness (MCBF)**. Each time a message is transmitted, one internal counter which is independent of the ECU will be incremented. The disadvantage of MCBF is that counters shall be persistent and will add CPU load due to NVM processing. Another disadvantage of MCBF is its relative weakness from out of sync counter conditions.
+* **Message Counter Based Freshness (MCBF)**. Each time a message is transmitted, one internal counter which is independent of the ECU will be incremented. The disadvantage of MCBF is that counters shall be persistent and will add CPU load due to NVM processing. Another disadvantage of MCBF is its relative weakness from out of sync counter conditions. For example, if one component does not change its counter and it returns to normal enought time to wrap up again within the threshold of the last recorded value, the Message Counter Based Freshness would not be able to detect any malfunction conditions that causes the component to be on halt.
 * **Trip Counter Based Freshness (TCBF)**. TCBF is incremented when a trip is completed (ECU message process). FVM increments the TCBF along with a synch message (TripResetSynchMessage) to both, the sender and receiver. TCBF is based on the hybrid sending of freshness based on 3 counters to support automatic resync:
     * Trip Counter. ECU incremental persistent 4 bytes for each ECU process.
     * Reset Counter. PDU incremental no-persistent value, this counter increases itself when a message counter has suffered an overflow.
     * Message Counter. PDU incremental no- persistent value, this counter increases itself every time a message is sent.
 * **Time Stamps.** Verification for each ECU with a real-time value, time-stamps shall be sent by “secure” messages.
-Hybrid mechanisms. Combination of Timestamps and Freshness counters.
+* **Hybrid mechanisms**. Combination of Timestamps and Freshness counters.
 
 Conditions of Out of sync counter happens when 2 counter mismatch during E2E communication. The following mechanisms prevent the out of sync counter mismatching:
 
-* **Truncated freshness**. This approach recognizes small differences in the freshness values from two ECUs. For example, sending values with a resolution of 10 permits room for delay messages to one ECU that has freshness between 11 to 19.
-* **Challenge-response protocol**. This approach detects large differences in the freshness values from two ECUs. Challenge-response protocol is a “challenge” special message from one ECU to another to perform a sync execution.
+* **Truncated freshness**. This approach recognizes small differences in the freshness values from two ECUs. For example, sending values with a resolution of 10 seconds and starting on 11 seconds, then the receptor verify the valid freshness before 19 seconds.
+* **Challenge-response protocol**. This approach is able to detect large differences in the freshness values from two ECUs. Challenge-response protocol is a “challenge” special message from one ECU to another to perform a sync execution.
 * **Periodic counter-message**. This approach injects periodic messages to the schedule to verify the counter from both ECUs and thereby avoiding out of sync conditions.
 
 ## Special case Transport Layer Security
@@ -231,12 +233,30 @@ A TLS cryptography session specifies the cryptography mechanisms that one group 
 # Crypto Instances of use
 ## Secure Bootloader
 
-Secure Bootloader prevents the execution of altered SW during the trusted execution chain of the ECU. The secure bootloader shall verify the SW integrity for each ECU startup by using checksums, signature validation, and MAC/Keys containment in a secured area. This integrity validation prolongs the startup time, so HW specific solutions can be considered to mitigate high Startup times.
+Secure Bootloader prevents the execution of altered SW during the trusted execution chain of the ECU (programmingSession). The secure bootloader shall verify the SW integrity for each ECU startup by using checksums, signature validation, and MAC/Keys containment in a secured area. This integrity validation prolongs the startup time, so HW specific solutions can be considered to mitigate high Startup times.
 
-The Secure Bootloader requires truthful SW and HW entities to save the Boot MAC/secret key inside them. For example, HW HSMs compare their Boot MAC against a computation from the bootloader host; if both are equal, then the bootloader is considered to be secure. Thereby, the bootloader performs calculations to determine the Application level MAC and ask HSM to compare with its stored Application-level MAC. If both coincide, then the application is started. If any of these comparisons do not match, the HSM is blocked and triggers an ECU reset.
+The Secure Bootloader requires truthful SW and HW entities to save the Boot MAC/secret key inside them. For example, HSMs or eShe compare their Boot MAC against a computation from the bootloader host; if both are equal, then the bootloader is considered to be secure. Thereby, the bootloader performs calculations to determine the Application level MAC and ask HSM to compare with its stored Application-level MAC. If both coincide, then the application is started. If any of these comparisons do not match, the HSM is blocked and triggers an ECU reset.
 
 ## Secure Diagnostic
 
-The secure diagnostic is based on the role of esta blishment or whitelist to trusted authorities by certifications. Each role has process permissions or diagnostic data access. The OEM contains back-end devices to establish certifications and roles, while the vehicle verifies these certifications by authentication demands.
+The secure diagnostic is based on whitelist to trusted authorities by certifications. Each role has process permissions or diagnostic data access. The OEM contains back-end devices to establish certifications and roles, while the vehicle verifies these certifications by authentication demands. The OEM certification can have an expiration time or the diagnostic tool can have restricted uses cases based solely on the OEM back-end infrastructure.
+
+## Secure Software download
+
+It is possible to secure the ECU against malicious SW binaries download. Each SW binary can contain a verification structure that contains the signature of a private key, then this signature is verified against the public key during the download process. If the SW is not valid, then the verification does not permit the binary to be attached to the ECU, if the SW is valid, then the verification permits the binary to be inserted on the ECU to be used. The secure software download can be used along with other complement secure methods such as session key on UDS service 27h or Random Number comparison, or Part Number identification.
+
+The verification structure contains the signature of the private key, but can also contain CRC and other verifications in order to detect malicious changes on the data of the binary. Since these additional verifications shall be secured as well, they are executed after the verification of the signature.
+
+Software binaries can have different roles in the OEM use cases. For example, the ECU can integrate several types of public keys to be able to change between use cases of software binaries. Usually, there can be a development mode and a production mone on the ECU, the development mode uses development pair keys and enables the ECU to run development binaries before and after production, while the production mode uses production pair keys to have official software in the ECU that are identified to be stable enough to run on production vehicles.
+
+## Secure over the air commands
+
+When an ECU support over the air commands, some OTA commands might request verification of signature. This verification of signature is specific for OTA commands and for special OTA milestone commands that might authorize routines such as resume pause of binaries download, verification of compatibility of the binaries, and preparation of the software swap. If the milestone OTA command is not verified correctly, then the dedicated routines are going to not be executed and the ECU shall respond with a negative response.
+
+OTA command verification is independent verification and can be required in the ECU with the software download verification, the OTA verification signature permits the software download but is requires the software download signature to detect malicious binaries, and other special verifications.
+
+## Production and development SW verification
+
+The ECU during its processes that require verification of signature might act different based on the production phase, so during development processes, the key shall be development, whereas any production phase relies solely in the stable production keys. In some cases, it is required to change among keys, so the ECU shall support different key slots and logic to select the correct key based on the mode inputs. So one use case is that after production release, vehicles can detect a bug, so when returning to the "garage", then a special development software can be verified and integrated on the ECU to debug the issue.
 
 > Reference : https://www.autosar.org/
