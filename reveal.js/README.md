@@ -754,7 +754,7 @@ The framework comes with a few different themes included:
 Each theme is available as a separate stylesheet. To change theme you will need to replace **black** below with your desired theme name in index.html:
 
 ```html
-<link rel="stylesheet" href="css/theme/black.css" id="theme">
+<link rel="stylesheet" href="css/theme/night.css" id="theme">
 ```
 
 If you want to add a theme of your own see the instructions here: [/css/theme/README.md](https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md).
