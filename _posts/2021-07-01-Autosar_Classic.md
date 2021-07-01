@@ -49,3 +49,12 @@ Adaptive Autosar is out of scope for this introduction.
 The following diagram is a simplified example of a system with AUTOSAR which involves two entities. **SWC** and **VBF**.
 
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/AutosarClassic_sc2.png)
+
+Autosar Software Component (SWC) is an application-level encapsulation of functionalities to implement specific functionalities in conjunction with interfaces to BSW, the fulfillment of requirements and Software Component description (SWCD). In this case, mechanisms, logic, and algorithms are implemented to map the range of sensitivity and responsiveness of the throttle.
+
+Besides the intra-ECU communication, the application might require communication with other ECUs so inter-ECU communication is available by the use of vehicle network protocols supported by Autosar (**CAN**, **LIN**, FlexGate, and Ethernet).
+
+SWC can contain multiple **port clusters**. These clusters can group **interrelated** interfaces. For example, there are 2 types of ports used in Autosar SWCs:
+
+* **Sender/Receiver** are interface ports that support n: 1 or 1: n communication. This communication type is based on the transmission of data elements. These data elements are sent by the sender and requested by the receiver through application runnable. The Sender / Receiver interface ports calls are synchronous and are performed in the same context as the sender. In this context, communication boundaries are ports that are configured based on runnable of the involved SWC.
+* **Client / Server** are interface ports that support n: 1 communication, the call to a server is implemented from runnable of the server-SWC and can be synchronous or asynchronous, as well as using the same client context (unmapped server) or within another context (mapped server). Multiple clients can request/invoke services/functions from the server.
