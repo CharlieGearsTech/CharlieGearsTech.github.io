@@ -75,7 +75,7 @@ Software components communicate through ports. All port is associated with a por
 * **Provided Port (P-Port)**, defines Sender/Receiver (**S/R**) that provides a transmission signal and defines Client /Service (**C/S**) to forward a service to a client.
 * **Require Port (R-Port)**, defines Sender/Receiver (**S/R**) to reception of signals, and defines Clients /Service (**C/S**) to reception of services of a server.
 
-The interface type of Sender/Receiver coonect the information based on data forms for one or more receptor by one or more transmissors. The mode management can be used to determine which receptor and transmissors to use. This type of interfaces can be sopported by the following port types:
+The interface type of Sender/Receiver connect the information based on data forms for one or more receptor by one or more transmissions. The mode management can be used to determine which receptor and transmissions to use. This type of interfaces can be supported by the following port types:
 * **RPort** The component consume a data value. ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPort.png)
 * **PPort** The component delivers a data value ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PPort.png)
 * **PRPort** The component can consume and delivers the data values of specific port. 
@@ -87,7 +87,7 @@ The interface type of Sender/Receiver coonect the information based on data form
 * **Autosar PRPor t** The component can consume or deliver a service based on the Autosar specification service 
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/AutosarPRPort.png)
 
-The interface type of Client / Service is the transmission of a transmissor operation to multiples receptors, so those receptors can use the operation. This type of interface can be supported by the next port types
+The interface type of Client / Service is the transmission of a transmission operation to multiples receptors, so those receptors can use the operation. This type of interface can be supported by the next port types
 * **RPort Client** This components uses the operation defined in the interface. If black, means Autosar specification operation.
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/clientRPort.png)
 * **PPort Server** This component implements the operation defined. If black, means Autosar-specification operation.
@@ -102,28 +102,32 @@ The interface type of **interface of parameter** allows access to constant data 
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PPortParameter.png)
 
 The interface type **Trigger** allows the callback of a software component from other software component to permit fast responses to sporadic events. This type of interface can be supported by the next port types.
-* **RPort Trigger** This component contains a trigger sink. If blacks, means Autosar-specification trigger
+* **RPort Trigger** This component contains a trigger sink. If black, means Autosar-specification trigger
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortTrigger.png)
-* **PPort Trigger** This component contains a source of triggers. If blacks, means Autosar-spec trigger
+* **PPort Trigger** This component contains a source of triggers. If black, means Autosar-spec trigger
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortTrigger.png)
-* **PRPort Trigger** This component contains a source and a sink of triggers. If blacks, means Autosar-spec trigger
+* **PRPort Trigger** This component contains a source and a sink of triggers. If black, means Autosar-spec trigger
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PRPortTrigger.png)
 
 
 The interface type **Mode Switch** allows software components to be notified by a mode. This type of interface can be supported by these port types.
 * **RPort Switch** This component has a switch mode user. If blacks, means Autosar specification mode switch user.
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortSwitch.png)
-* **PPort Switch** This component has a manager of switch mode. If blacks, means Autosar specification manager of switch mode.
+* **PPort Switch** This component has a manager of switch mode. If black, means Autosar specification manager of switch mode.
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PPortSwitch.png)
-* **PRPort Switch** This component has a manager and user of switch mode. If blacks, means Autosar specification manager of switch mode.
+* **PRPort Switch** This component has a manager and user of switch mode. If black, means Autosar specification manager of switch mode.
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PRPortSwitch.png)
 
-
-
 The interface type **NV data interface** allows the access to NVM blocks to read and write. This type of interface can be supported by these port types
-* ****
+* **RPort NV** This component requires access to a NV block data. If black, means Autosar specification NV access request.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortNV.png)
+* **PPort NV** This component allow access to a NV block data. If black, means Autosar specification NV access enabled.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PPortNV.png)
+* **PRPort NV** This component allows and requires access to a NV block data. If black, means Autosar specification NV access enabled and request.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PRPortNV.png)
+
 
 # Reference
 
-* Autosar specificaction 4.3
+* Autosar specification 4.3
 * Virtual Bus Function Autosar specification 4.3
