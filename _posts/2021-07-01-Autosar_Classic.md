@@ -87,8 +87,41 @@ The interface type of Sender/Receiver coonect the information based on data form
 * **Autosar PRPor t** The component can consume or deliver a service based on the Autosar specification service 
 ![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/AutosarPRPort.png)
 
-El tipo de interface de Client/Service es la transmisión de una operación de un solo transmisor hacia varios receptores y así que tales receptores puedan usar tal operación.
+The interface type of Client / Service is the transmission of a transmissor operation to multiples receptors, so those receptors can use the operation. This type of interface can be supported by the next port types
+* **RPort Client** This components uses the operation defined in the interface. If black, means Autosar specification operation.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/clientRPort.png)
+* **PPort Server** This component implements the operation defined. If black, means Autosar-specification operation.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/clientPPort.png)
+* **PRort Client Server** This component uses and implements operations defined in the interface.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PRort.png)
 
+The interface type of **interface of parameter** allows access to constant data such as compilation constant, calibration, or fixed data. No connection of a defined variable is not possible so the interfaces shall be congruent and be connected to its supported pair. This type of interface can be supported by the next port types.
+* **RPort Parameter** This component obtains the parameter data. If black, means Autosar-specification parameter.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortParameter.png)
+* **PPort Parameter** This component transmits the parameter data. If black means Autosar-specific parameter.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PPortParameter.png)
+
+The interface type **Trigger** allows the callback of a software component from other software component to permit fast responses to sporadic events. This type of interface can be supported by the next port types.
+* **RPort Trigger** This component contains a trigger sink. If blacks, means Autosar-specification trigger
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortTrigger.png)
+* **PPort Trigger** This component contains a source of triggers. If blacks, means Autosar-spec trigger
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortTrigger.png)
+* **PRPort Trigger** This component contains a source and a sink of triggers. If blacks, means Autosar-spec trigger
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PRPortTrigger.png)
+
+
+The interface type **Mode Switch** allows software components to be notified by a mode. This type of interface can be supported by these port types.
+* **RPort Switch** This component has a switch mode user. If blacks, means Autosar specification mode switch user.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/RPortSwitch.png)
+* **PPort Switch** This component has a manager of switch mode. If blacks, means Autosar specification manager of switch mode.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PPortSwitch.png)
+* **PRPort Switch** This component has a manager and user of switch mode. If blacks, means Autosar specification manager of switch mode.
+![](https://raw.githubusercontent.com/CharlieGearsTech/CharlieGearsTech.github.io/main/images/PRPortSwitch.png)
+
+
+
+The interface type **NV data interface** allows the access to NVM blocks to read and write. This type of interface can be supported by these port types
+* ****
 
 # Reference
 
